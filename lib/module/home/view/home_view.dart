@@ -1,3 +1,4 @@
+import 'package:bp_reading/module/home/controller/item_data.dart';
 import 'package:bp_reading/module/home/widget/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:bp_reading/core.dart';
@@ -9,26 +10,39 @@ class HomeView extends StatefulWidget {
   Widget build(context, HomeController controller) {
     controller.view = this;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
+        child: const Icon(Icons.add),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return TwoTextFieldDialog(
+                  title: 'Add Record',
+                );
+              });
+        },
+      ),
       appBar: AppBar(
         title: const Text("Home"),
         backgroundColor: Colors.amber[200],
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return TwoTextFieldDialog(
-                      title: 'Add Record',
-                    );
-                  });
-            },
-            icon: const Icon(
-              Icons.add,
-              size: 24.0,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     showDialog(
+          //         context: context,
+          //         builder: (context) {
+          //           return TwoTextFieldDialog(
+          //             title: 'Add Record',
+          //           );
+          //         });
+          //   },
+          //   icon: const Icon(
+          //     Icons.add,
+          //     size: 24.0,
+          //   ),
+          // ),
         ],
       ),
       drawer: Drawer(
@@ -84,20 +98,15 @@ class HomeView extends StatefulWidget {
                 height: 20.0,
               ),
               ListView.builder(
-                itemCount: 3,
+                itemCount: HomeController.instance.itemList.length,
                 physics: const ScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
+                  ItemData item = HomeController.instance.itemList[index];
                   return Card(
                     child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        backgroundImage: const NetworkImage(
-                          "https://i.ibb.co/QrTHd59/woman.jpg",
-                        ),
-                      ),
-                      title: const Text("Jessica Doe"),
-                      subtitle: const Text("Programmer"),
+                      title: Text(item.dateTime),
+                      subtitle: Text(item.pulse),
                     ),
                   );
                 },

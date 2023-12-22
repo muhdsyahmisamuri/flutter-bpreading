@@ -1,3 +1,5 @@
+import 'package:bp_reading/module/home/controller/home_controller.dart';
+import 'package:bp_reading/module/home/controller/item_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -87,6 +89,20 @@ class _TwoTextFieldDialogState extends State<TwoTextFieldDialog> {
           onPressed: () {
             if (_areAllFieldsFilled()) {
               confirm = true;
+              print('Systolic: ${textFieldSysController.text}');
+              print('Diastolic: ${textFieldDiaController.text}');
+              print('Pulse: ${textFieldPulseController.text}');
+              print('Date & Time: ${textFieldDateTimeController.text}');
+
+              ItemData newItem = ItemData(
+                systolic: textFieldSysController.text,
+                diastolic: textFieldDiaController.text,
+                pulse: textFieldPulseController.text,
+                dateTime: textFieldDateTimeController.text,
+              );
+
+              HomeController.instance.addItem(newItem);
+
               Navigator.pop(context);
             } else {
               _showSnackBar(
