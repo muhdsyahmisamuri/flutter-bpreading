@@ -1,18 +1,20 @@
 import 'package:bp_reading/module/home/controller/item_data.dart';
 import 'package:flutter/material.dart';
 import 'package:bp_reading/core.dart';
+import 'package:hive/hive.dart';
 import '../view/home_view.dart';
 
 class HomeController extends State<HomeView> {
   static late HomeController instance;
   late HomeView view;
 
-  List<ItemData> itemList = [];
+  late Box<ItemData> itemBox;
 
   @override
   void initState() {
-    instance = this;
     super.initState();
+    instance = this; // Initialize the instance here
+    itemBox = Hive.box<ItemData>('items');
   }
 
   @override
@@ -23,19 +25,19 @@ class HomeController extends State<HomeView> {
 
   void addItem(ItemData item) {
     setState(() {
-      itemList.add(item);
+      itemBox.add(item);
     });
   }
 
   void removeItem(int index) {
     setState(() {
-      itemList.removeAt(index);
+      itemBox.deleteAt(index);
     });
   }
 
   void clearItems() {
     setState(() {
-      itemList.clear();
+      itemBox.clear();
     });
   }
 }

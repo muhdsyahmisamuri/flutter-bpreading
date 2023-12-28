@@ -127,12 +127,13 @@ class HomeView extends StatefulWidget {
               ),
               ListView.builder(
                 padding: EdgeInsets.all(10),
-                itemCount: HomeController.instance.itemList.length,
+                itemCount: HomeController.instance.itemBox.length,
                 physics: const ScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  ItemData item = HomeController.instance.itemList[index];
-                  return Dismissible(
+                  final item = HomeController.instance.itemBox.getAt(index);
+                  if (item != null) {
+                    return Dismissible(
                       key: Key(item.dateTime +
                           index.toString()), // Unique key for Dismissible
                       direction: DismissDirection.endToStart, // Swipe direction
@@ -238,7 +239,11 @@ class HomeView extends StatefulWidget {
                             ),
                           ],
                         ),
-                      ));
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
                 },
               ),
             ],
