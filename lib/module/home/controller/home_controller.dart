@@ -26,4 +26,16 @@ class HomeController extends State<HomeView> {
       itemList.add(item);
     });
   }
+
+  void removeItem(int index) {
+    setState(() {
+      itemList.removeAt(index);
+    });
+  }
+
+  void clearItems() {
+    setState(() {
+      itemList.clear();
+    });
+  }
 }

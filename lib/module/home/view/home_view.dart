@@ -31,7 +31,32 @@ class HomeView extends StatefulWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Confirm Delete"),
+                    content: Text("Are you sure you want to delete all items?"),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text("Cancel"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text("OK"),
+                        onPressed: () {
+                          HomeController.instance.clearItems();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
             icon: Icon(
               Icons.delete_forever,
               size: 24.0,
@@ -107,99 +132,113 @@ class HomeView extends StatefulWidget {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   ItemData item = HomeController.instance.itemList[index];
-                  return Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      border: Border.all(color: Colors.black, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          item.dateTime,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
+                  return Dismissible(
+                      key: Key(item.dateTime +
+                          index.toString()), // Unique key for Dismissible
+                      direction: DismissDirection.endToStart, // Swipe direction
+                      onDismissed: (direction) {
+                        // Handle the dismissal
+                        HomeController.instance.removeItem(index);
+                      },
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          border: Border.all(color: Colors.black, width: 1),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  'SYS',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.yellow,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  item.systolic,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              item.dateTime,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  'DIA',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  item.diastolic,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            Divider(
+                              color: Colors.black,
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
                             ),
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Text(
-                                  'PUL',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.yellow,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'SYS',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.yellow,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      item.systolic,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  item.pulse,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'DIA',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      item.diastolic,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'PUL',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.yellow,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      item.pulse,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  );
+                      ));
                 },
               ),
             ],
