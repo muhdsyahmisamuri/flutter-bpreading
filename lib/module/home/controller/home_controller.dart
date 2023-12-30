@@ -40,4 +40,17 @@ class HomeController extends State<HomeView> {
       itemBox.clear();
     });
   }
+
+  Color getColorForStatus(String status) {
+    switch (status) {
+      case 'normal':
+        return Colors.green;
+      case 'elevated':
+        return Colors.yellow;
+      case 'high':
+        return Colors.red;
+      default:
+        return Colors.brown; // Default color for unknown status
+    }
+  }
 }
