@@ -65,6 +65,7 @@ class HomeView extends StatefulWidget {
         ],
       ),
       drawer: Drawer(
+        backgroundColor: Colors.amber[200],
         child: ListView(
           children: [
             ListTile(
@@ -179,160 +180,176 @@ class HomeView extends StatefulWidget {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Container(
-                height: 30.0,
-                decoration: const BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(
-                      8.0,
-                    ),
-                  ),
+      body: HomeController.instance.itemBox.isEmpty
+          ? Center(
+              child: Container(
+                width: 200, // Medium width, adjust as needed
+                height: 200, // Medium height, adjust as needed
+                child: Image.asset(
+                  'assets/bp_logo.png',
+                  fit: BoxFit
+                      .contain, // This ensures the image maintains its aspect ratio
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    IndicatorWidget(label: 'Low', color: Colors.yellow),
-                    IndicatorWidget(label: 'Good', color: Colors.green),
-                    IndicatorWidget(label: 'High', color: Colors.red),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 30.0,
+                      decoration: const BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            8.0,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          IndicatorWidget(label: 'Low', color: Colors.yellow),
+                          IndicatorWidget(label: 'Good', color: Colors.green),
+                          IndicatorWidget(label: 'High', color: Colors.red),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    ListView.builder(
+                      padding: EdgeInsets.all(10),
+                      itemCount: HomeController.instance.itemBox.length,
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        final item =
+                            HomeController.instance.itemBox.getAt(index);
+                        if (item != null) {
+                          return Dismissible(
+                            key: Key(item.dateTime +
+                                index.toString()), // Unique key for Dismissible
+                            direction:
+                                DismissDirection.endToStart, // Swipe direction
+                            onDismissed: (direction) {
+                              // Handle the dismissal
+                              HomeController.instance.removeItem(index);
+                            },
+                            background: Container(
+                              color: Colors.white,
+                              alignment: Alignment.centerRight,
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Icon(Icons.remove_circle_outline,
+                                  color: Colors.black38),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                color: HomeController.instance
+                                    .getColorForStatus(item.status),
+                                border:
+                                    Border.all(color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Text(
+                                    item.dateTime,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Divider(
+                                    color: Colors.black,
+                                    thickness: 1,
+                                    indent: 20,
+                                    endIndent: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'SYS',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.yellow,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            item.systolic,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'DIA',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.green[200],
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            item.diastolic,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'PUL',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.yellow,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            item.pulse,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              ListView.builder(
-                padding: EdgeInsets.all(10),
-                itemCount: HomeController.instance.itemBox.length,
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  final item = HomeController.instance.itemBox.getAt(index);
-                  if (item != null) {
-                    return Dismissible(
-                      key: Key(item.dateTime +
-                          index.toString()), // Unique key for Dismissible
-                      direction: DismissDirection.endToStart, // Swipe direction
-                      onDismissed: (direction) {
-                        // Handle the dismissal
-                        HomeController.instance.removeItem(index);
-                      },
-                      background: Container(
-                        color: Colors.white,
-                        alignment: Alignment.centerRight,
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Icon(Icons.remove_circle_outline,
-                            color: Colors.black38),
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                          color: HomeController.instance
-                              .getColorForStatus(item.status),
-                          border: Border.all(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Text(
-                              item.dateTime,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            Divider(
-                              color: Colors.black,
-                              thickness: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'SYS',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.yellow,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      item.systolic,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'DIA',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      item.diastolic,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'PUL',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.yellow,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      item.pulse,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
