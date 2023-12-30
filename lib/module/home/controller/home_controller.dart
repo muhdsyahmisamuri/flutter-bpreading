@@ -50,7 +50,7 @@ class HomeController extends State<HomeView> {
       case 'high':
         return Colors.red;
       default:
-        return Colors.brown; // Default color for unknown status
+        return Colors.grey; // Default color for unknown status
     }
   }
 }
