@@ -11,13 +11,13 @@ class HomeView extends StatefulWidget {
     controller.view = this;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         child: const Icon(Icons.add),
         onPressed: () {
           showDialog(
             context: context,
             builder: (context) {
-              return TwoTextFieldDialog(
+              return const TwoTextFieldDialog(
                 title: 'Add Record',
               );
             },
@@ -35,17 +35,18 @@ class HomeView extends StatefulWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Confirm Delete"),
-                    content: Text("Are you sure you want to delete all items?"),
+                    title: const Text("Confirm Delete"),
+                    content: const Text(
+                        "Are you sure you want to delete all items?"),
                     actions: <Widget>[
                       TextButton(
-                        child: Text("Cancel"),
+                        child: const Text("Cancel"),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       TextButton(
-                        child: Text("OK"),
+                        child: const Text("OK"),
                         onPressed: () {
                           HomeController.instance.clearItems();
                           Navigator.of(context).pop();
@@ -101,43 +102,6 @@ class HomeView extends StatefulWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.code),
-              title: const Text("About"),
-              onTap: () {
-                Navigator.pop(context);
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("About This App"),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: const <Widget>[
-                            Text("Blood Pressure Tracker"),
-                            Text("Version: 1.0.0"),
-                            Text(
-                                "This app helps you track and manage your blood pressure readings."),
-                            Text("Developed by syahmisenpai97"),
-                            Text(
-                                "For more information or feedback, contact us at: syahmiemoboyz00@gmail.com"),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-
-            ListTile(
               leading: const Icon(Icons.bar_chart),
               title: const Text("Blood Pressure Chart"),
               onTap: () {
@@ -150,8 +114,9 @@ class HomeView extends StatefulWidget {
                       content: SingleChildScrollView(
                         child: Column(
                           children: <Widget>[
-                            Text("Understand your blood pressure readings:"),
-                            SizedBox(height: 10),
+                            const Text(
+                                "Understand your blood pressure readings:"),
+                            const SizedBox(height: 10),
                             Image.asset(
                                 'assets/bp_chart.jpg'), // Replace with your image asset
                           ],
@@ -170,19 +135,48 @@ class HomeView extends StatefulWidget {
                 );
               },
             ),
-            // ListTile(
-            //   leading: const Icon(
-            //     Icons.logout,
-            //   ),
-            //   title: const Text("Logout"),
-            //   onTap: () {},
-            // )
+            ListTile(
+              leading: const Icon(Icons.code),
+              title: const Text("About"),
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("About This App"),
+                      content: const SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            Text("Blood Pressure Tracker"),
+                            Text("Version: 1.0.0"),
+                            Text(
+                                "This app helps you track and manage your blood pressure readings."),
+                            Text("Developed by syahmisam"),
+                            Text(
+                                "For more information or feedback, contact me at: syahmiemoboyz00@gmail.com"),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
       body: HomeController.instance.itemBox.isEmpty
           ? Center(
-              child: Container(
+              child: SizedBox(
                 width: 200, // Medium width, adjust as needed
                 height: 200, // Medium height, adjust as needed
                 child: Image.asset(
@@ -207,7 +201,7 @@ class HomeView extends StatefulWidget {
                           ),
                         ),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           IndicatorWidget(label: 'Low', color: Colors.yellow),
@@ -220,7 +214,7 @@ class HomeView extends StatefulWidget {
                       height: 20.0,
                     ),
                     ListView.builder(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       itemCount: HomeController.instance.itemBox.length,
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
@@ -240,13 +234,14 @@ class HomeView extends StatefulWidget {
                             background: Container(
                               color: Colors.white,
                               alignment: Alignment.centerRight,
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Icon(Icons.remove_circle_outline,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: const Icon(Icons.remove_circle_outline,
                                   color: Colors.black38),
                             ),
                             child: Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                 color: HomeController.instance
                                     .getColorForStatus(item.status),
@@ -259,13 +254,13 @@ class HomeView extends StatefulWidget {
                                 children: <Widget>[
                                   Text(
                                     item.dateTime,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
-                                  Divider(
+                                  const Divider(
                                     color: Colors.black,
                                     thickness: 1,
                                     indent: 20,
@@ -277,7 +272,7 @@ class HomeView extends StatefulWidget {
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          Text(
+                                          const Text(
                                             'SYS',
                                             style: TextStyle(
                                               fontSize: 20,
@@ -285,10 +280,10 @@ class HomeView extends StatefulWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           Text(
                                             item.systolic,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -305,10 +300,10 @@ class HomeView extends StatefulWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           Text(
                                             item.diastolic,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -317,7 +312,7 @@ class HomeView extends StatefulWidget {
                                       ),
                                       Column(
                                         children: <Widget>[
-                                          Text(
+                                          const Text(
                                             'PUL',
                                             style: TextStyle(
                                               fontSize: 20,
@@ -325,10 +320,10 @@ class HomeView extends StatefulWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          SizedBox(height: 10),
+                                          const SizedBox(height: 10),
                                           Text(
                                             item.pulse,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),

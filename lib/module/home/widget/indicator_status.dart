@@ -15,7 +15,7 @@ class IndicatorWidget extends StatelessWidget {
           backgroundColor: color,
           radius: 8.0,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text(label),
       ],
     );

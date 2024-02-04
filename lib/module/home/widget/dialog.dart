@@ -20,11 +20,23 @@ class _TwoTextFieldDialogState extends State<TwoTextFieldDialog> {
   TextEditingController textFieldDateTimeController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    // Format the current date and time
+    final DateTime now = DateTime.now();
+    final String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(now);
+
+    // Set the formatted date and time as the initial value
+    textFieldDateTimeController.text = formattedDateTime;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(widget.title),
       content: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -32,21 +44,21 @@ class _TwoTextFieldDialogState extends State<TwoTextFieldDialog> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: textFieldSysController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Systolic',
                 ),
               ),
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: textFieldDiaController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Diastolic',
                 ),
               ),
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: textFieldPulseController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Pulse',
                 ),
               ),
@@ -58,7 +70,7 @@ class _TwoTextFieldDialogState extends State<TwoTextFieldDialog> {
                     maxLength: 20,
                     enabled: true,
                     controller: textFieldDateTimeController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Date & Time',
                       hintText: 'dd/MM/yyyy HH:mm',
                       labelStyle: TextStyle(
@@ -89,10 +101,6 @@ class _TwoTextFieldDialogState extends State<TwoTextFieldDialog> {
           onPressed: () {
             if (_areAllFieldsFilled()) {
               confirm = true;
-              print('Systolic: ${textFieldSysController.text}');
-              print('Diastolic: ${textFieldDiaController.text}');
-              print('Pulse: ${textFieldPulseController.text}');
-              print('Date & Time: ${textFieldDateTimeController.text}');
 
               ItemData newItem = ItemData(
                 systolic: textFieldSysController.text,
@@ -160,7 +168,7 @@ class _TwoTextFieldDialogState extends State<TwoTextFieldDialog> {
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     ));
   }
 }
