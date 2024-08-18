@@ -1,16 +1,18 @@
-# bp_reading
+# BP Tracker
 
-A new Flutter project.
+BP Tracker is a Flutter app that helps users record and monitor their blood pressure. The app allows users to log their systolic, diastolic, and pulse readings along with the date and time.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Record Blood Pressure**: Easily log systolic, diastolic, and pulse readings.
+- **Date and Time**: Automatically captures the date and time for each entry.
+- **History**: View the history of all recorded readings in an organized list.
+- **User-Friendly Interface**: Simple and intuitive design for easy navigation.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
+![image](https://github.com/user-attachments/assets/da941bf5-8d2b-410f-8049-d5e53c31ae55)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![image](https://github.com/user-attachments/assets/5505a2ed-ba26-40b9-bf0a-24e571b9b220)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
