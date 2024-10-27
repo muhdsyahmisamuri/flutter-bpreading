@@ -14,5 +14,8 @@ BP Tracker is a Flutter app that helps users record and monitor their blood pres
 
 ![image](https://github.com/user-attachments/assets/5505a2ed-ba26-40b9-bf0a-24e571b9b220)
 
+![image](https://github.com/user-attachments/assets/fccb5e33-05ce-4eb8-b05f-8706a24cc330)
+
+
 
 
